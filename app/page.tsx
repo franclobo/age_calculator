@@ -21,9 +21,9 @@ const calculateAge = (year: string, month: string, day: string): { age: Age; err
   console.log('year', year);
   console.log('month', month);
   console.log('day', day);
-  const ageYears = today.getFullYear() - birth.getFullYear();
-  const ageMonths = today.getMonth() - birth.getMonth();
-  const ageDays = today.getDate() - birth.getDate();
+  let ageYears = today.getFullYear() - birth.getFullYear();
+  let ageMonths = today.getMonth() - birth.getMonth() + 1;
+  let ageDays = today.getDate() - birth.getDate();
   const error = {
     errorYear: ['Must be in the past', 'This field is required', 'Must be a valid date'],
     errorMonth: ['Must be a valid month', 'This field is required', 'Must be a valid date'],
@@ -36,13 +36,31 @@ const calculateAge = (year: string, month: string, day: string): { age: Age; err
     }
     return [4, 6, 9, 11].includes(month) ? 30 : 31;
   };
-
   const maxDays = maxDaysInMonth(parseInt(month), parseInt(year));
+  if (ageDays < 0) {
+    ageMonths--;
+    const lastMonthDate = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+    ageDays = lastMonthDate - birth.getDate() + today.getDate();
+  }
+  if (ageMonths < 0) {
+    ageYears--;
+    ageMonths += 12;
+  }
+
+  if (parseInt(day) > 31 && parseInt(month) > 12 && parseInt(year) < today.getFullYear()) {
+    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: '', errorMonth: error.errorMonth[0], errorDay: error.errorDay[0] } };
+  }
+  if (parseInt(month) === 0 || parseInt(month) > 12 && parseInt(year) < today.getFullYear()) {
+    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: '', errorMonth: error.errorMonth[0], errorDay: '' } };
+  }
+
+
+  
   if(!year || !month || !day) {
     return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: 'This field is required', errorMonth: 'This field is required', errorDay: 'This field is required' } };
   } else if (birth.getFullYear() > today.getFullYear() || birth.getMonth() > 12 || birth.getDate() > 31) {
     return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: error.errorYear[0], errorMonth: error.errorMonth[0], errorDay: error.errorDay[0] } };
-  } else if (birth.getDate() > maxDays) {
+  } else if (birth.getDate() > maxDays || parseInt(day) > 31) {
     console.log('maxDays', maxDays);
     return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: '', errorMonth: '', errorDay: error.errorDay[2] } };
   } else {
@@ -69,39 +87,39 @@ export default function Home() {
       <form className="flex flex-col jusify-center items-center my-10 sm:max-w-screen-sm lg:max-w-screen-lg ">
         <div className="flex gap-1 lg:max-w-screen-lg sm:max-w-screen-sm">
           <div className="flex flex-col justify-center items-start flex-grow max-w-1/3">
-            <label htmlFor="Day" className="text-xs uppercase smokey-grey font-bold">
+            <label htmlFor="Day" className={`text-xs uppercase font-bold ${error.errorDay ? 'light-red' : 'smokey-grey'}`}>
               Day
             </label>
             <input
               type="text"
               id="Day"
-              className="border-2 border-gray-300 p-2 rounded-md sm:w-full lg:w-full max-w-[5rem]"
+              className={`border-2 p-2 rounded-md sm:w-full lg:w-full max-w-[5rem] ${error.errorDay ? 'border-light-red' : 'border-gray-300'}`}
               placeholder="DD"
               onChange={text => setDay(text.target.value)}
             />
             {error.errorDay && <p className="text-red-500 text-xs">{error.errorDay}</p>}
           </div>
           <div className="flex flex-col justify-start items-start flex-grow max-w-1/3">
-            <label htmlFor="Month" className="text-xs uppercase smokey-grey font-bold">
+            <label htmlFor="Month" className={`text-xs uppercase font-bold ${error.errorMonth || error.errorDay ? 'light-red' : 'smokey-grey'}`}>
               Month
             </label>
             <input
               type="text"
               id="Month"
-              className="border-2 border-gray-300 p-2 rounded-md sm:w-full lg:w-full max-w-[5rem]"
+              className={`border-2 border-gray-300 p-2 rounded-md sm:w-full lg:w-full max-w-[5rem] ${error.errorMonth || error.errorDay ? 'border-light-red' : 'border-gray-300'}`}
               placeholder="MM"
               onChange={text => setMonth(text.target.value)}
             />
             {error.errorMonth && <p className="text-red-500 text-xs">{error.errorMonth}</p>}
           </div>
           <div className="flex flex-col justify-start items-start flex-grow max-w-1/3">
-            <label htmlFor="Year" className="text-xs uppercase smokey-grey font-bold">
+            <label htmlFor="Year" className={`text-xs uppercase font-bold ${error.errorYear || error.errorDay ? 'light-red' : 'smokey-grey'}`}>
               Year
             </label>
             <input
               type="text"
               id="Year"
-              className="border-2 border-gray-300 p-2 rounded-md sm:w-full lg:w-full max-w-[5rem]"
+              className={`border-2 border-gray-300 p-2 rounded-md sm:w-full lg:w-full max-w-[5rem] ${error.errorYear || error.errorDay ? 'border-light-red' : 'border-gray-300'}`}
               placeholder="YYYY"
               onChange={text => setYear(text.target.value)}
             />

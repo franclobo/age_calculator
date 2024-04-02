@@ -40,6 +40,14 @@ body {
   color: var(--purple);
 }
 
+.border-light-red {
+  border-color: var(--light-red);
+}
+
+.light-red {
+  color: var(--light-red);
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
