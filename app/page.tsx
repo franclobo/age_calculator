@@ -14,9 +14,21 @@ type Error = {
   errorDay: string;
 };
 
-const calculateAge = (birthDate: string): { age: Age; error: Error } => {
+const calculateAge = (year: string, month: string, day: string): { age: Age; error: Error } => {
+
+  const birth = new Date(parseInt(year), parseInt(month), parseInt(day));
   const today = new Date();
-  const birth = new Date(birthDate);
+  console.log('year', year);
+  console.log('month', month);
+  console.log('day', day);
+  const ageYears = today.getFullYear() - birth.getFullYear();
+  const ageMonths = today.getMonth() - birth.getMonth();
+  const ageDays = today.getDate() - birth.getDate();
+  const error = {
+    errorYear: ['Must be in the past', 'This field is required', 'Must be a valid date'],
+    errorMonth: ['Must be a valid month', 'This field is required', 'Must be a valid date'],
+    errorDay: ['Must be a valid day', 'This field is required', 'Must be a valid date'],
+  };
 
   const maxDaysInMonth = (month: number, year: number): number => {
     if (month === 2) {
@@ -25,53 +37,18 @@ const calculateAge = (birthDate: string): { age: Age; error: Error } => {
     return [4, 6, 9, 11].includes(month) ? 30 : 31;
   };
 
-  const isValidDate = (date: Date): boolean => {
-
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-
-    const maxDays = maxDaysInMonth(month, year);
-
-    return (
-      year > 0 && year <= today.getFullYear() &&
-      month > 0 && month <= 12 &&
-      day > 0 && day <= maxDays
-    );
-  };
-
-  const error = {
-    errorYear: ['Must be in the past', 'This field is required', 'Must be a valid date'],
-    errorMonth: ['Must be a valid month', 'This field is required', 'Must be a valid date'],
-    errorDay: ['Must be a valid day', 'This field is required', 'Must be a valid date'],
-  }
-
-  if (!isValidDate(birth)) {
-    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: error.errorYear[2], errorMonth: error.errorMonth[2], errorDay: error.errorDay[2] } };
-  }
-
-  if (isNaN(birth.getFullYear()) && isNaN(birth.getMonth()) && isNaN(birth.getDate())) {
-    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: error.errorYear[1], errorMonth: error.errorMonth[1], errorDay: error.errorDay[1] } };
+  const maxDays = maxDaysInMonth(parseInt(month), parseInt(year));
+  if(!year || !month || !day) {
+    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: 'This field is required', errorMonth: 'This field is required', errorDay: 'This field is required' } };
+  } else if (birth.getFullYear() > today.getFullYear() || birth.getMonth() > 12 || birth.getDate() > 31) {
+    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: error.errorYear[0], errorMonth: error.errorMonth[0], errorDay: error.errorDay[0] } };
+  } else if (birth.getDate() > maxDays) {
+    console.log('maxDays', maxDays);
+    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: '', errorMonth: '', errorDay: error.errorDay[2] } };
   } else {
-
-  let ageYears = today.getFullYear() - birth.getFullYear();
-  let ageMonths = today.getMonth() - birth.getMonth();
-  let ageDays = today.getDate() - birth.getDate();
-
-  switch (true) {
-    case birth.getFullYear() && birth.getFullYear() > 0 && birth.getFullYear() <= today.getFullYear():
-      return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: error.errorYear[0], errorMonth: '', errorDay: '' } };
-      break;
-    case birth.getMonth() && birth.getMonth() > 0 && birth.getMonth() <= 12:
-      return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: '', errorMonth: error.errorMonth[0], errorDay: '' } };
-      break;
-    case birth.getDate() > 0 && birth.getDate() <= maxDaysInMonth(birth.getMonth(), birth.getFullYear()):
-      return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: '', errorMonth: '', errorDay: error.errorDay[0] } };
-      break;
-    default:
-      return { age: { years: ageYears, months: ageMonths, days: ageDays }, error: { errorYear: '', errorMonth: '', errorDay: '' } };
+    console.log( 'maxDays', maxDays)
+  return { age: { years: ageYears, months: ageMonths, days: ageDays }, error: { errorYear: '', errorMonth: '', errorDay: '' } };
   }
-}
 };
 
 export default function Home() {
@@ -82,12 +59,9 @@ export default function Home() {
   const [error, setError] = useState<Error>({ errorYear: '', errorMonth: '', errorDay: '' });
 
   const calculateAndSetAge = () => {
-    const birthDate = `${year}-${month}-${day}`;
-    const calculatedAge = calculateAge(birthDate);
-    if (calculatedAge.age && calculatedAge.error) {
-      setAge(calculatedAge.age);
-      setError(calculatedAge.error);
-    }
+    const calculatedAge = calculateAge(year, month, day);
+    setAge(calculatedAge.age);
+    setError(calculatedAge.error);
   };
 
   return (
