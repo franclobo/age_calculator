@@ -83,7 +83,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-wrap xl:w-full sm:max-w-screen-sm flex-col items-center justify-start pt-2 pb-10 m-10 xl:absolute xl:top-1/2 xl:left-1/2 xl:transform xl:-translate-x-1/2 xl:-translate-y-1/2 bg-white rounded-tl-[2rem] rounded-tr-[2rem] rounded-bl-[2rem] rounded-br-[7rem] xl:rounded-br-[10rem]">
+    <main className="flex flex-wrap xl:w-full sm:max-w-screen-sm flex-col items-center justify-start pt-2 pb-10 xl:absolute xl:top-1/2 xl:left-1/2 xl:transform xl:-translate-x-1/2 xl:-translate-y-1/2 bg-white rounded-tl-[2rem] rounded-tr-[2rem] rounded-bl-[2rem] rounded-br-[7rem] xl:rounded-br-[10rem]">
       <form className="flex flex-col jusify-center items-center my-10 sm:max-w-screen-sm xl:w-full xl:p-10 ">
         <div className="flex gap-1 xl:gap-4 sm:max-w-screen-sm">
           <div className="flex flex-col justify-center items-start flex-grow max-w-1/3">
