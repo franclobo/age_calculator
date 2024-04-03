@@ -51,13 +51,12 @@ const calculateAge = (year: string, month: string, day: string): { age: Age; err
     return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: '', errorMonth: error.errorMonth[0], errorDay: error.errorDay[0] } };
   }
   if (parseInt(month) === 0 || parseInt(month) > 12 && parseInt(year) < today.getFullYear()) {
-    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: '', errorMonth: error.errorMonth[0], errorDay: '' } };
+    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: error.errorYear[1], errorMonth: error.errorMonth[0], errorDay: '' } };
   }
 
 
-  
   if(!year || !month || !day) {
-    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: 'This field is required', errorMonth: 'This field is required', errorDay: 'This field is required' } };
+    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: error.errorYear[1], errorMonth: error.errorMonth[1], errorDay: error.errorDay[1] } };
   } else if (birth.getFullYear() > today.getFullYear() || birth.getMonth() > 12 || birth.getDate() > 31) {
     return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: error.errorYear[0], errorMonth: error.errorMonth[0], errorDay: error.errorDay[0] } };
   } else if (birth.getDate() > maxDays || parseInt(day) > 31) {
