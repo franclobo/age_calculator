@@ -138,7 +138,7 @@ export default function Home() {
         </div>
       </form>
       <div className="flex flex-col items-start">
-        <p className="text-[2rem] xl:text-8xl font-bold italic"><span className="purple">{age.years}</span> years</p>
+        <h1 className="text-[2rem] xl:text-8xl font-bold italic"><span className="purple">{age.years}</span> years</h1>
         <p className="text-[2rem] xl:text-8xl font-bold italic"><span className="purple">{age.months}</span> months</p>
         <p className="text-[2rem] xl:text-8xl font-bold italic"><span className="purple">{age.days}</span> days</p>
       </div>
