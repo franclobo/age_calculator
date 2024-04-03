@@ -84,8 +84,8 @@ export default function Home() {
 
   return (
     <main className="flex flex-wrap flex-col items-center justify-start pt-2 pb-10 px-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-tl-[2rem] rounded-tr-[2rem] rounded-bl-[2rem] rounded-br-[7rem] xl:rounded-br-[10rem]">
-      <form className="flex flex-col jusify-center items-center my-10 sm:max-w-screen-sm xl:w-full xl:p-10 ">
-        <div className="flex gap-1 xl:gap-4 sm:max-w-screen-sm">
+      <form className="flex flex-col jusify-center xl:items-start items-center my-10 sm:max-w-screen-sm xl:w-full xl:py-10 ">
+        <div className="flex xl:justify-start gap-1 xl:gap-4 sm:max-w-screen-sm">
           <div className="flex flex-col justify-center items-start flex-grow max-w-1/3">
             <label htmlFor="Day" className={`text-xs uppercase font-bold ${error.errorDay ? 'light-red' : 'smokey-grey'}`}>
               Day
@@ -93,7 +93,7 @@ export default function Home() {
             <input
               type="text"
               id="Day"
-              className={`border-2 p-2 rounded-md sm:w-full xl:w-full xl:max-w-[10rem] max-w-[5rem] ${error.errorDay ? 'border-light-red' : 'border-gray-300'}`}
+              className={`border-2 p-2 rounded-md sm:w-full xl:w-full xl:max-w-[8rem] max-w-[5rem] ${error.errorDay ? 'border-light-red' : 'border-gray-300'}`}
               placeholder="DD"
               onChange={text => setDay(text.target.value)}
             />
@@ -106,7 +106,7 @@ export default function Home() {
             <input
               type="text"
               id="Month"
-              className={`border-2 border-gray-300 p-2 rounded-md sm:w-full xl:w-full xl:max-w-[10rem] max-w-[5rem] ${error.errorMonth || error.errorDay ? 'border-light-red' : 'border-gray-300'}`}
+              className={`border-2 border-gray-300 p-2 rounded-md sm:w-full xl:w-full xl:max-w-[8rem] max-w-[5rem] ${error.errorMonth || error.errorDay ? 'border-light-red' : 'border-gray-300'}`}
               placeholder="MM"
               onChange={text => setMonth(text.target.value)}
             />
@@ -119,7 +119,7 @@ export default function Home() {
             <input
               type="text"
               id="Year"
-              className={`border-2 border-gray-300 p-2 rounded-md sm:w-full xl:w-full xl:max-w-[10rem] max-w-[5rem] ${error.errorYear || error.errorDay ? 'border-light-red' : 'border-gray-300'}`}
+              className={`border-2 border-gray-300 p-2 rounded-md sm:w-full xl:w-full xl:max-w-[8rem] max-w-[5rem] ${error.errorYear || error.errorDay ? 'border-light-red' : 'border-gray-300'}`}
               placeholder="YYYY"
               onChange={text => setYear(text.target.value)}
             />
