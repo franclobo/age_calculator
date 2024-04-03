@@ -38,7 +38,8 @@ Users should be able to:
 
 ### Screenshot
 
-![image](https://github.com/franclobo/age_calculator/assets/58642949/1cc33de4-153e-4339-a690-ce6be4d2fde8)
+![image](https://github.com/franclobo/age_calculator/assets/58642949/36a53a8a-083b-4a25-8f5e-194e2afa90c6)
+
 
 ### Links
 
