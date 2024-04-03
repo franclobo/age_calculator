@@ -38,7 +38,8 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
+![image](https://github.com/franclobo/age_calculator/assets/58642949/99c4fd47-ed55-46a2-9df0-23bf6c48e132)
+
 
 ### Links
 
