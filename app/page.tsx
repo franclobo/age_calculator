@@ -73,7 +73,7 @@ export default function Home() {
   const [day, setDay] = useState('');
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
-  const [age, setAge] = useState<Age>({ years: 0, months: 0, days: 0 });
+  const [age, setAge] = useState<Age>({ years: '--', months: '--', days: '--' });
   const [error, setError] = useState<Error>({ errorYear: '', errorMonth: '', errorDay: '' });
 
   const calculateAndSetAge = () => {
