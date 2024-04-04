@@ -2,71 +2,7 @@
 import React, { useState } from 'react';
 import Image from "next/image";
 import Narrow from "../public/assets/images/icon-arrow.svg";
-
-type Age = {
-  years: number | string;
-  months: number | string;
-  days: number | string;
-};
-type Error = {
-  errorYear: string;
-  errorMonth: string;
-  errorDay: string;
-};
-
-const calculateAge = (year: string, month: string, day: string): { age: Age; error: Error } => {
-
-  const birth = new Date(parseInt(year), parseInt(month), parseInt(day));
-  const today = new Date();
-  console.log('year', year);
-  console.log('month', month);
-  console.log('day', day);
-  let ageYears = today.getFullYear() - birth.getFullYear();
-  let ageMonths = today.getMonth() - birth.getMonth() + 1;
-  let ageDays = today.getDate() - birth.getDate();
-  const error = {
-    errorYear: ['Must be in the past', 'This field is required', 'Must be a valid date'],
-    errorMonth: ['Must be a valid month', 'This field is required', 'Must be a valid date'],
-    errorDay: ['Must be a valid day', 'This field is required', 'Must be a valid date'],
-  };
-
-  const maxDaysInMonth = (month: number, year: number): number => {
-    if (month === 2) {
-      return year % 4 === 0 ? 29 : 28;
-    }
-    return [4, 6, 9, 11].includes(month) ? 30 : 31;
-  };
-  const maxDays = maxDaysInMonth(parseInt(month), parseInt(year));
-  if (ageDays < 0) {
-    ageMonths--;
-    const lastMonthDate = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
-    ageDays = lastMonthDate - birth.getDate() + today.getDate();
-  }
-  if (ageMonths < 0) {
-    ageYears--;
-    ageMonths += 12;
-  }
-
-  if (parseInt(day) > 31 && parseInt(month) > 12 && parseInt(year) < today.getFullYear()) {
-    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: '', errorMonth: error.errorMonth[0], errorDay: error.errorDay[0] } };
-  }
-  if (parseInt(month) === 0 || parseInt(month) > 12 && parseInt(year) < today.getFullYear()) {
-    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: error.errorYear[1], errorMonth: error.errorMonth[0], errorDay: '' } };
-  }
-
-
-  if(!year || !month || !day) {
-    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: error.errorYear[1], errorMonth: error.errorMonth[1], errorDay: error.errorDay[1] } };
-  } else if (birth.getFullYear() > today.getFullYear() || birth.getMonth() > 12 || birth.getDate() > 31) {
-    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: error.errorYear[0], errorMonth: error.errorMonth[0], errorDay: error.errorDay[0] } };
-  } else if (birth.getDate() > maxDays || parseInt(day) > 31) {
-    console.log('maxDays', maxDays);
-    return { age: { years: '--', months: '--', days: '--' }, error: { errorYear: '', errorMonth: '', errorDay: error.errorDay[2] } };
-  } else {
-    console.log( 'maxDays', maxDays)
-  return { age: { years: ageYears, months: ageMonths, days: ageDays }, error: { errorYear: '', errorMonth: '', errorDay: '' } };
-  }
-};
+import calculateAge, { Age, Error } from '@/lib/calculateAge';
 
 export default function Home() {
   const [day, setDay] = useState('');
