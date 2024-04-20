@@ -59,6 +59,10 @@ const calculateAge = (year: string, month: string, day: string): { age: Age; err
   let months = currentDate.getMonth() - birthDate.getMonth();
   let days = currentDate.getDate() - birthDate.getDate();
 
+  if (birthDate > currentDate){
+    error.errorDay = `Birthday should be in the past`;
+  }
+
   if (months < 0 || (months === 0 && days < 0)) {
     years -= 1;
     months += 12;
